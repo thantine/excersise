@@ -1,5 +1,5 @@
 import React from "react"
 import ReactDOM from "react-dom";
-import Hello from "./components/hello";
+import Main from "./components/main";
 
-ReactDOM.render(<Hello />, document.getElementById("root"));
+ReactDOM.render(<Main />, document.getElementById("root"));
