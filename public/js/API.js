@@ -1,11 +1,16 @@
-import { get } from "axios";
+import { post } from "axios";
 import ServerActions from "./actions/ServerActions";
 
 class API {
   fetchMessages() {
-    console.log("1. In API");
-    get("/data/messages")
-      .then(resp => ServerActions.receiveMessages(resp.data))
+    post("/graphql", {
+      query: `{
+        messages {
+          _id,
+          content
+        }
+      }`
+    }).then(resp => ServerActions.receiveMessages(resp.data.data.messages))
   }
 }
 

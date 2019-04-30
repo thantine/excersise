@@ -20303,7 +20303,6 @@
 	  }, {
 	    key: "onChange",
 	    value: function onChange() {
-	      console.log("4. In the view");
 	      this.setState(_getAppState());
 	    }
 	  }, {
@@ -20371,9 +20370,10 @@
 	  _createClass(API, [{
 	    key: "fetchMessages",
 	    value: function fetchMessages() {
-	      console.log("1. In API");
-	      (0, _axios.get)("/data/messages").then(function (resp) {
-	        return _ServerActions2.default.receiveMessages(resp.data);
+	      (0, _axios.post)("/graphql", {
+	        query: "{\n        messages {\n          _id,\n          content\n        }\n      }"
+	      }).then(function (resp) {
+	        return _ServerActions2.default.receiveMessages(resp.data.data.messages);
 	      });
 	    }
 	  }]);
@@ -22041,8 +22041,6 @@
 	  _createClass(ServerActions, [{
 	    key: "receiveMessages",
 	    value: function receiveMessages(messages) {
-	      console.log("2. In ServerActions");
-	
 	      _AppDispatcher2.default.dispatch({
 	        actionType: _Constants.ActionTypes.RECEIVE_MESSAGES,
 	        messages: messages
@@ -22457,8 +22455,6 @@
 	    _AppDispatcher2.default.register(function (action) {
 	      switch (action.actionType) {
 	        case _Constants.ActionTypes.RECEIVE_MESSAGES:
-	          // do something;
-	          console.log("3. In Store", action.messages);
 	          _messages = action.messages;
 	          _this.emit("change");
 	          break;
